@@ -10,28 +10,16 @@ const signToken = (id: string) => {
   });
 };
 
-/**
- * 
- * @param req {
-        toJSON: { virtuals: true },
-        toObject: { virtuals: true },
-    }
- * @param res 
- * @returns 
- */
-
 export const registerOrLogin = async (req: Request, res: Response) => {
-  console.log(req.body);
   if (!req?.body?.email || !req.body?.password) {
     return res.status(400).json({ message: "Please provide missing fields" });
   }
   const { email, password } = req.body;
   try {
     const _user = await User.findOne({ email }).exec();
-    console.log(_user, "USR");
 
     if (_user) {
-      if (!(await bcrypt.compare(_user?.password as string, password))) {
+      if (!(await bcrypt.compare(password, _user?.password as string))) {
         return res.status(400).json({ message: "Invalid email or password" });
       }
       const token = signToken(_user?._id as unknown as string);
