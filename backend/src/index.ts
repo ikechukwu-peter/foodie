@@ -62,7 +62,7 @@ app.use("/auth", authRouter);
 app.all("*", async (req: Request, res: Response) => {
   console.log(req.protocol);
   res.status(404).json({
-    message: "The route you requested is not found",
+    error: "The route you requested is not found",
   });
 });
 

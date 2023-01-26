@@ -27,6 +27,6 @@ export const validate =
       });
       return next();
     } catch (err: any) {
-      return res.status(400).json({ message: err.message });
+      return res.status(400).json({ error: err.message });
     }
   };
