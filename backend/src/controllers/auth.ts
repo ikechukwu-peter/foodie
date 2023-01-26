@@ -20,14 +20,16 @@ export const registerOrLogin = async (req: Request, res: Response) => {
         return res.status(400).json({ error: "Invalid email or password" });
       }
       const token = signToken(_user?._id as unknown as string);
-      return res.status(200).json({ token, email });
+      return res.status(200).json({ token, email, id: _user?._id });
     }
     const newUser = await User.create({
       email,
       password: await bcrypt.hash(password, CONSTANTS.SALT),
     });
     const token = signToken(newUser?._id as unknown as string);
-    return res.status(201).json({ token, email: newUser?.email });
+    return res
+      .status(201)
+      .json({ token, email: newUser?.email, id: newUser._id });
   } catch (error) {
     console.log(error);
     return res
