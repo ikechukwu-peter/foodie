@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useLayoutEffect } from "react";
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { MdOutlineClose } from "react-icons/md";
 import { Button } from "../components/Button";
+import { AuthenticationContext } from "../context";
+import { AUTH_TYPE } from "../@types";
 
 const routes = [
   { name: "Home", to: "/dashboard" },
@@ -11,21 +13,30 @@ const routes = [
 ];
 
 export const DashboardLayout = () => {
-  const pathname = useLocation().pathname;
+  const { onLogout, user } = useContext(AuthenticationContext) as AUTH_TYPE;
 
   const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    if (!sessionStorage.getItem("token") && !sessionStorage.getItem("email")) {
+      navigate("/");
+    }
+  }, []);
+
+  const pathname = useLocation().pathname;
+
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => {
     setOpen((prev) => !prev);
   };
   const handleLogout = () => {
-    navigate("/", { replace: true });
+    onLogout();
   };
   return (
     <div className="w-full h-full bg-black overflow-x-hidden">
       <div className="h-[60px] md:h-[80px] bg-zinc-900 flex items-center justify-between px-3 sticky top-0 z-50">
         <div className="flex items-center">
-          <h2 className="text-white font-bold text-xl">Foodie Doodie</h2>
+          <h2 className="text-white font-bold text-xl">Foodie</h2>
           <span className="text-orange-700 font-extrabold text-xl pl-2">.</span>
         </div>
 
@@ -47,8 +58,7 @@ export const DashboardLayout = () => {
               alt="A image"
             />
             <div>
-              <h2 className="text-white font-semibold ">John</h2>
-              <p className="text-orange-500 font-light">john@gmail.com</p>
+              <p className="text-orange-500 font-light">{user}</p>
             </div>
           </div>
           <div className="flex flex-col gap-y-1  mt-3">

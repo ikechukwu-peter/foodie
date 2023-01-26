@@ -1,4 +1,4 @@
 import { validateEmail } from "./validate-email";
-import { validateImageSize, validateImageType } from "./validate-image";
+import { validateImageType } from "./validate-image";
 
-export { validateImageSize, validateImageType, validateEmail };
+export { validateImageType, validateEmail };

@@ -14,11 +14,3 @@ export const validateImageType = (value: File) => {
     return SUPPORTED_FORMATS.includes(value.type);
   }
 };
-
-export function validateImageSize(file: File) {
-  //max image is 100kb
-  if (file) {
-    let size = file.size;
-    return size <= 1024 * 100;
-  }
-}

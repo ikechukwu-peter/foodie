@@ -1,68 +1,53 @@
-// import { useState, createContext, useEffect } from "react";
-// import { useRouter } from "next/router";
-// import { useAdmins } from "../hooks/admins.hooks";
+import { useState, createContext, useEffect, ReactNode } from "react";
+import { AUTH_TYPE } from "../@types";
+import { useAuth } from "../hooks";
 
-// export const AuthenticationContext = createContext();
+export const AuthenticationContext = createContext<AUTH_TYPE | null>(null);
 
-// export const AuthenticationContextProvider = ({ children }) => {
-//   const router = useRouter();
-//   const { loading, signIn, loadUser } = useAdmins();
-//   const [user, setUser] = useState();
-//   const [isLoading, setIsLoading] = useState(false);
+export const AuthenticationContextProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
+  const { loading, login } = useAuth();
+  const [user, setUser] = useState<string>("");
 
-//   useEffect(() => {
-//     const token = sessionStorage.getItem("token");
-//     const storedUser = sessionStorage.getItem("user");
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const storedUser = sessionStorage.getItem("email");
 
-//     if (storedUser !== "undefined" && token) {
-//       setUser(JSON.parse(storedUser));
-//     }
-//   }, []);
+    if (storedUser !== undefined && storedUser !== null && token) {
+      setUser(storedUser);
+    }
+  }, []);
 
-//   const fetchUser = async () => {
-//     const user = await loadUser();
+  const onLogin = async (payload: { email: string; password: string }) => {
+    const response = await login(payload);
+    if (response) {
+      sessionStorage.setItem("token", response?.token);
+      sessionStorage.setItem("email", response?.email);
 
-//     sessionStorage.setItem("user", JSON.stringify(user));
+      setUser(response?.email);
+      return (window.location.href = "/dashboard");
+    }
+  };
 
-//     setUser(user);
-//   };
+  const onLogout = () => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("email");
+    return (window.location.href = "/");
+  };
 
-//   const onLogin = async (payload) => {
-//     setIsLoading(loading);
-
-//     const user = await signIn(payload);
-//     if (user) {
-//       sessionStorage.setItem("token", user?.token);
-//       sessionStorage.setItem("user", JSON.stringify(user?.others));
-//       sessionStorage.setItem("role", user?.others?.role);
-
-//       setUser(user?.others);
-//       router.push("/account");
-//     }
-//   };
-
-//   const onLogout = () => {
-//     console.log("LOG OUT");
-//     setUser(null);
-//     sessionStorage.removeItem("token");
-//     sessionStorage.removeItem("user");
-//     sessionStorage.removeItem("role");
-
-//     return router.push("/");
-//   };
-
-//   return (
-//     <AuthenticationContext.Provider
-//       value={{
-//         user,
-//         loading: isLoading,
-//         isAuthenticated: !!user,
-//         onLogin,
-//         onLogout,
-//         fetchUser,
-//       }}
-//     >
-//       {children}
-//     </AuthenticationContext.Provider>
-//   );
-// };
+  return (
+    <AuthenticationContext.Provider
+      value={{
+        user,
+        loading,
+        onLogin,
+        onLogout,
+      }}
+    >
+      {children}
+    </AuthenticationContext.Provider>
+  );
+};

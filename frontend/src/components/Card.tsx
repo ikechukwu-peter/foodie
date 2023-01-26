@@ -3,12 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "./Button";
 
 export const Card = ({
-  id = "2",
+  id,
   avatar,
   image,
   title,
   description,
-  username,
   email,
 }: {
   id: string;
@@ -16,7 +15,6 @@ export const Card = ({
   image: string;
   description: string;
   title: string;
-  username: string;
   email: string;
 }) => {
   const navigate = useNavigate();
@@ -41,10 +39,9 @@ export const Card = ({
           <img
             className="h-12 w-12 object-cover rounded-full"
             src={avatar}
-            alt={"A picture of " + username}
+            alt={"A picture of user"}
           />
           <div className="text-left">
-            <h2 className="text-white font-thin">{username}</h2>
             <p className="text-orange-500 font-light">{email}</p>
           </div>
         </div>

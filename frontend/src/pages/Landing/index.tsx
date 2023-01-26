@@ -1,9 +1,10 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useContext } from "react";
 import { Input, Form, Button } from "../../components";
 import recipeOne from "../../assets/recipe-one.jpg";
-import { useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils";
-import axios from "axios";
+import { AuthenticationContext } from "../../context";
+import { AUTH_TYPE } from "../../@types";
+import cogoToast from "cogo-toast";
 
 enum TYPE {
   LOGIN = "Login",
@@ -16,7 +17,7 @@ type _STATE = {
 };
 
 export const Landing = () => {
-  const navigate = useNavigate();
+  const { loading, onLogin } = useContext(AuthenticationContext) as AUTH_TYPE;
   const [state, setState] = useState<_STATE>({ email: "", password: "" });
   const [action, setAction] = useState<string>("Login");
   const handleState = (e: FormEvent<HTMLInputElement>) => {
@@ -27,28 +28,15 @@ export const Landing = () => {
     setAction(type);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateEmail(state?.email)) {
-      alert("Invalid email");
-      return;
+      return cogoToast.error("Invalid email");
     }
     if (!state?.password) {
-      alert("Please provide password");
-      return;
+      return cogoToast.error("Please provide password");
     }
-    if (action === "Login") {
-      console.log("LOGIN", state);
-      axios
-        .get("http://localhost:4000/recipe")
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err?.response.data.message));
-
-      // navigate("/dashboard");
-      return;
-    } else {
-      console.log("REGISTER", state);
-    }
+    await onLogin(state);
   };
   return (
     <div className="container bg-black text-white h-[100%] flex flex-col-reverse md:flex-row w-full">
@@ -57,8 +45,6 @@ export const Landing = () => {
         onSubmit={handleSubmit}
       >
         <div className="flex flex-col gap-2  w-full md:w-[50%]">
-          {/* <h2 className="text-white font-bold text-lg">{action}</h2> */}
-
           <Input
             name="email"
             placeholder="Email"
@@ -77,16 +63,20 @@ export const Landing = () => {
 
           <div className="w-full md:w-[50%] m-auto flex flex-col gap-2">
             <Button
-              title="Login"
+              title={action === TYPE.LOGIN && loading ? "Loading" : "Login"}
               handleClick={() => handleNavigation(TYPE.LOGIN)}
               className={`bg-orange-500 text-white hover:bg-orange-600 py-1 px-6 w-full `}
               type="submit"
+              disabled={loading}
             />
             <Button
-              title="Register"
+              title={
+                action === TYPE.REGISTER && loading ? "Loading" : "Register"
+              }
               handleClick={() => handleNavigation(TYPE.REGISTER)}
               className={`bg-orange-500 text-white hover:bg-orange-600  py-1 px-6 w-full `}
               type="submit"
+              disabled={loading}
             />
           </div>
         </div>
