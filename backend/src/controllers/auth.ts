@@ -17,21 +17,21 @@ export const registerOrLogin = async (req: Request, res: Response) => {
 
     if (_user) {
       if (!(await bcrypt.compare(password, _user?.password as string))) {
-        return res.status(400).json({ message: "Invalid email or password" });
+        return res.status(400).json({ error: "Invalid email or password" });
       }
       const token = signToken(_user?._id as unknown as string);
-      return res.status(200).json({ data: { token, email } });
+      return res.status(200).json({ token, email });
     }
     const newUser = await User.create({
       email,
       password: await bcrypt.hash(password, CONSTANTS.SALT),
     });
     const token = signToken(newUser?._id as unknown as string);
-    return res.status(201).json({ data: { token, email: newUser?.email } });
+    return res.status(201).json({ token, email: newUser?.email });
   } catch (error) {
     console.log(error);
     return res
       .status(500)
-      .json({ message: "An error occured while processing your request" });
+      .json({ error: "An error occured while processing your request" });
   }
 };

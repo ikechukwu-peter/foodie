@@ -7,12 +7,12 @@ import { upload } from "../cloudinary";
 export const getAllRecipes = async (req: Request, res: Response) => {
   try {
     const recipes = await Recipe.find({}).exec();
-    res.status(200).json({ data: recipes });
+    res.status(200).json(recipes);
   } catch (error) {
     console.log(error);
     res
       .status(500)
-      .json({ message: "An error occured while processing your request" });
+      .json({ error: "An error occured while processing your request" });
   }
 };
 
@@ -20,12 +20,12 @@ export const getRecipe = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const recipe = await Recipe.findById(id).exec();
-    res.status(200).json({ data: recipe });
+    res.status(200).json(recipe);
   } catch (error) {
     console.log(error);
     res
       .status(500)
-      .json({ message: "An error occured while processing your request" });
+      .json({ error: "An error occured while processing your request" });
   }
 };
 
@@ -33,27 +33,27 @@ export const getUserRecipes = async (req: Request, res: Response) => {
   const { userId } = req.params;
   try {
     const recipe = await Recipe.find({ userId: userId }).exec();
-    res.status(200).json({ data: recipe });
+    res.status(200).json(recipe);
   } catch (error) {
     console.log(error);
     res
       .status(500)
-      .json({ message: "An error occured while processing your request" });
+      .json({ error: "An error occured while processing your request" });
   }
 };
 
 export const createRecipe = async (req: Request, res: Response) => {
   if (!req?.user) {
-    return res.status(422).json({ message: "Unable to process your request." });
+    return res.status(422).json({ error: "Unable to process your request." });
   }
 
   if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).json({ message: "No files were uploaded." });
+    return res.status(400).json({ error: "No files were uploaded." });
   }
 
   const image = req.files.image as UploadedFile;
   if (!validateImageType(image)) {
-    return res.status(422).json({ message: "Image type not supported." });
+    return res.status(422).json({ error: "Image type not supported." });
   }
 
   //if you wan to store to disk, you use this
@@ -64,7 +64,7 @@ export const createRecipe = async (req: Request, res: Response) => {
 
   // image.mv(pathToFIle, (err) => {
   //   if (err) {
-  //     return res.status(500).json({ message: err?.message });
+  //     return res.status(500).json({ error: err?.error });
   //   }
   // });
 
@@ -78,7 +78,7 @@ export const createRecipe = async (req: Request, res: Response) => {
     imageId = res.public_id;
   } catch (error: any) {
     console.log(error, "CLOUDINARY ERROR");
-    return res.status(400).json({ message: error?.message });
+    return res.status(400).json({ error: error?.error });
   }
 
   const {
@@ -101,11 +101,11 @@ export const createRecipe = async (req: Request, res: Response) => {
         id: imageId,
       },
     });
-    return res.status(200).json({ data: recipe });
+    return res.status(200).json(recipe);
   } catch (error) {
     console.log(error);
     return res
       .status(500)
-      .json({ message: "An error occured while processing your request" });
+      .json({ error: "An error occured while processing your request" });
   }
 };
