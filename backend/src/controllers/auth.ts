@@ -11,7 +11,7 @@ const signToken = (id: string) => {
 };
 
 export const registerOrLogin = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password }: { email: string; password: string } = req.body;
   try {
     const _user = await User.findOne({ email }).exec();
 

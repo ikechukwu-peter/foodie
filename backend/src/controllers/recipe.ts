@@ -43,7 +43,6 @@ export const getUserRecipes = async (req: Request, res: Response) => {
 };
 
 export const createRecipe = async (req: Request, res: Response) => {
-  await Recipe.deleteMany({});
   if (!req?.user) {
     return res.status(422).json({ message: "Unable to process your request." });
   }
@@ -57,6 +56,7 @@ export const createRecipe = async (req: Request, res: Response) => {
     return res.status(422).json({ message: "Image type not supported." });
   }
 
+  //if you wan to store to disk, you use this
   // const fileName = Date.now() + image.name;
   // const pathToFIle = path.resolve(
   //   __dirname + "../../../assets/" + Date.now() + image.name
@@ -81,7 +81,13 @@ export const createRecipe = async (req: Request, res: Response) => {
     return res.status(400).json({ message: error?.message });
   }
 
-  const { title, note, description, ingredients } = req.body;
+  const {
+    title,
+    note,
+    description,
+    ingredients,
+  }: { title: string; note: string; description: string; ingredients: string } =
+    req.body;
 
   try {
     const recipe = await Recipe.create({

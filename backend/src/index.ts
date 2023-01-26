@@ -5,15 +5,35 @@ import { connect } from "mongoose";
 import passport from "passport";
 import cors from "cors";
 import fileUpload from "express-fileupload";
+import helmet from "helmet";
+import compression from "compression";
+import rateLimit from "express-rate-limit";
+import xssClean from "xss-clean";
 
 import { authRouter, recipeRouter } from "./routes";
 import { authenticate } from "./config";
+
+const apiLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 const app: Application = express();
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
+
+//set http headers
+app.use(helmet());
+//compress the node application
+app.use(compression());
+//serve as a limiter for accessing our api
+app.use(apiLimiter);
+//clean againt injections
+app.use(xssClean());
 
 app.use(
   fileUpload({
@@ -46,7 +66,7 @@ app.all("*", async (req: Request, res: Response) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = (process.env.PORT as unknown as number) || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

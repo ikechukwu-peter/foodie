@@ -7,9 +7,9 @@ import toStream from "buffer-to-stream";
 import sharp from "sharp";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.API_KEY,
-  api_secret: process.env.API_SECRET,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME as string,
+  api_key: process.env.CLOUDINARY_API_KEY as string,
+  api_secret: process.env.CLOUDINARY_API_SECRET as string,
   secure: true,
 });
 
@@ -18,7 +18,7 @@ export const upload = async (
   folder: string
 ): Promise<UploadApiResponse | UploadApiErrorResponse> => {
   //resize image using sharp
-  const bufferOfFile = await sharp(Buffer.from(file))
+  const bufferOfFile = await sharp(file)
     .resize(1870)
     .webp({ quality: 90 })
     .toBuffer();

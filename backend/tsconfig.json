@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
     "target": "es2016",
-    "lib": ["ES6", "DOM"],
+    "lib": [
+      "ES6",
+      "DOM"
+    ],
     "module": "commonjs",
     "rootDir": "src",
+    "baseUrl": "./",
     "resolveJsonModule": true,
     "allowJs": true,
     "outDir": "build",
@@ -13,9 +17,18 @@
     "noImplicitAny": true,
     "skipLibCheck": true,
     "moduleResolution": "node",
-    "types": ["node"],
-    "typeRoots": ["@types"]
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "@types"
+    ],
   },
-  "include": ["./src/**/*"],
-  "exclude": ["./public/*", "node_modules"]
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "./public/*",
+    "node_modules"
+  ]
 }
