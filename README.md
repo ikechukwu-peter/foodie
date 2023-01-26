@@ -98,7 +98,7 @@ Give a ⭐️ if you like this project!
 
 ## Acknowledgments
 
-- Hat tip to cloudinary.com for their awesome API to store images
+- Hat tip to [Cloudinary](cloudinary.com) for their awesome API to store images
 
 ## 📝 License
 
