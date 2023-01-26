@@ -1,14 +1,12 @@
-import React, { DragEvent, FormEvent, useEffect, useState } from "react";
+import cogoToast from "cogo-toast";
+import React, { DragEvent, FormEvent, useState } from "react";
 import { Button, Form, ImageUploader, Input, TextArea } from "../../components";
+import { useRecipe } from "../../hooks";
 import { validateImageType } from "../../utils";
-type STATE = {
-  title: string;
-  note: string;
-  description: string;
-  ingredients: string;
-};
+
 export const AddRecipe = () => {
-  const [state, setState] = useState<STATE | null>({
+  const { loading, addRecipe } = useRecipe();
+  const [state, setState] = useState({
     title: "",
     note: "",
     description: "",
@@ -28,8 +26,7 @@ export const AddRecipe = () => {
     let imageFile = event.dataTransfer.files[0];
 
     if (!validateImageType(imageFile)) {
-      alert("File type is wrong" + imageFile.type);
-      return;
+      return cogoToast.error("File type is wrong" + imageFile.type);
     }
 
     setImage(imageFile);
@@ -39,41 +36,36 @@ export const AddRecipe = () => {
     if (!event.currentTarget.files) return;
     const imageFile = event.currentTarget.files[0];
     if (!validateImageType(imageFile)) {
-      alert("File type is wrong" + imageFile.type);
-      return;
+      return cogoToast.warn("File type is wrong" + imageFile.type);
     }
 
     setImage(imageFile);
   };
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(state);
 
     if (!image) {
-      alert("Please an image");
-      return;
+      return cogoToast.error("Please add an image");
     }
 
-    if (
-      !state?.title ||
-      !state?.description ||
-      !state?.ingredients ||
-      !state?.note
-    ) {
-      alert("Please fill the missing field");
-      return;
+    if (!state?.title || !state?.description || !state?.ingredients) {
+      return cogoToast.error("Please fill the missing field");
     }
-
-    console.log("FORM SUBMITTED", state);
+    const payload = {
+      image,
+      ...state,
+    };
+    await addRecipe(payload);
+    setState({ title: "", note: "", description: "", ingredients: "" });
+    setImage(null);
   };
   const onChange = (
     e: FormEvent<HTMLInputElement> | FormEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.currentTarget;
 
-    console.log(name, value);
-    // setState({ ...state, [name]: value });
+    setState({ ...state, [name]: value });
   };
 
   return (
@@ -86,6 +78,7 @@ export const AddRecipe = () => {
       >
         <div className="w-full">
           <Input
+            disabled={loading}
             name="title"
             placeholder="Name of the recipe"
             type="text"
@@ -94,6 +87,7 @@ export const AddRecipe = () => {
           />
 
           <TextArea
+            disabled={loading}
             name="ingredients"
             placeholder="Ingredients"
             onChange={onChange}
@@ -102,6 +96,7 @@ export const AddRecipe = () => {
           />
 
           <TextArea
+            disabled={loading}
             name="description"
             placeholder="Recipe description and how to make it"
             onChange={onChange}
@@ -118,6 +113,7 @@ export const AddRecipe = () => {
             className={`bg-zinc-900 py-1 px-4 w-full  hover:bg-zinc-800 cursor-pointer focus:outline-none`}
           />
           <TextArea
+            disabled={loading}
             name="note"
             placeholder="Notes"
             onChange={onChange}
@@ -125,8 +121,9 @@ export const AddRecipe = () => {
             className={`bg-zinc-900 py-1 px-4 w-full placeholder:text-sm hover:bg-zinc-800 cursor-pointer focus:outline-none`}
           />
           <Button
-            title="Publish Recipe"
-            className={`bg-orange-500 text-white hover:bg-orange-600 py-1 px-6 w-full `}
+            disabled={loading}
+            title={loading ? "Publishig..." : "Publish Recipe"}
+            className={`bg-orange-500 text-white hover:bg-orange-600 py-1 px-6 w-full mb-4 `}
             type="submit"
           />
         </div>

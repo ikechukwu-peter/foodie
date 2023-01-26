@@ -15,6 +15,7 @@ export const TextArea = ({
 }) => {
   return (
     <textarea
+      {...rest}
       className={`${className} resize-y`}
       onChange={onChange}
       placeholder={placeholder}

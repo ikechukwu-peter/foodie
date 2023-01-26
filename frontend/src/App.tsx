@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { DashboardLayout } from "./layouts/dashboard";
-import { AddRecipe, Home } from "./pages/Dashboard";
+import { AddRecipe, Home, More, MyRecipes } from "./pages/Dashboard";
 import ErrorPage from "./pages/Error";
 import { Landing } from "./pages/Landing";
 
@@ -25,6 +25,14 @@ function App() {
         {
           path: "/dashboard/addrecipe",
           element: <AddRecipe />,
+        },
+        {
+          path: "/dashboard/myrecipes",
+          element: <MyRecipes />,
+        },
+        {
+          path: "/dashboard/recipe/:id",
+          element: <More />,
         },
       ],
     },
