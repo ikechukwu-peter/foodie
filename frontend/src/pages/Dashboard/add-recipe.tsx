@@ -1,10 +1,12 @@
 import cogoToast from "cogo-toast";
 import React, { DragEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Form, ImageUploader, Input, TextArea } from "../../components";
 import { useRecipe } from "../../hooks";
 import { validateImageType } from "../../utils";
 
 export const AddRecipe = () => {
+  const navigate = useNavigate();
   const { loading, addRecipe } = useRecipe();
   const [state, setState] = useState({
     title: "",
@@ -59,6 +61,7 @@ export const AddRecipe = () => {
     await addRecipe(payload);
     setState({ title: "", note: "", description: "", ingredients: "" });
     setImage(null);
+    navigate("/dashboard/myrecipes");
   };
   const onChange = (
     e: FormEvent<HTMLInputElement> | FormEvent<HTMLTextAreaElement>

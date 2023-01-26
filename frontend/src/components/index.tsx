@@ -5,6 +5,7 @@ import { Form } from "./Form";
 import { TextArea } from "./TextArea";
 import { SearchBox } from "./SearchBox";
 import { ImageUploader } from "./image-uploader";
+import { UILoader } from "./loaders/ui-loader";
 
 export {
   Button,
@@ -15,4 +16,5 @@ export {
   ImageUploader,
   SearchBox,
   RecipeCard,
+  UILoader,
 };

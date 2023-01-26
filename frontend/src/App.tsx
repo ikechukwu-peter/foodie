@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { UILoader } from "./components";
 import { DashboardLayout } from "./layouts/dashboard";
 import { AddRecipe, Home, More, MyRecipes } from "./pages/Dashboard";
 import ErrorPage from "./pages/Error";
@@ -39,12 +40,14 @@ function App() {
   ]);
   return (
     <div className="container h-[100vh] w-[100vw]">
-      <RouterProvider
-        router={router}
-        fallbackElement={
-          <div className="flex items-center justify-center">LOADING</div>
-        }
-      />
+      <Suspense fallback={<UILoader />}>
+        <RouterProvider
+          router={router}
+          fallbackElement={
+            <div className="flex items-center justify-center">LOADING</div>
+          }
+        />
+      </Suspense>
     </div>
   );
 }

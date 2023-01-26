@@ -1,5 +1,5 @@
 import { AddRecipe } from "./add-recipe";
-import { Home } from "./Home";
+import { Home } from "./home";
 import { MyRecipes } from "./my-recipes";
 import { More } from "./more";
 

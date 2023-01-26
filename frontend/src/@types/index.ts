@@ -35,6 +35,9 @@ export interface RECIPERES {
   note?: string;
   image: IIMAGE;
   description: string;
+  user: {
+    email: string;
+  };
 }
 
 export interface RECIPEUSER {

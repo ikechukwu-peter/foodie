@@ -10,18 +10,26 @@ import { AuthenticationContext } from "../../context";
 export const MyRecipes = () => {
   const { user, id } = useContext(AuthenticationContext) as AUTH_TYPE;
 
+  console.log(id, "USR ID");
+
   //useswr fetcher
-  //   const fetcher = (url: string) => instance.get(url).then((res) => res.data);
-  //   const { data, error } = useSWR(`/recipe/user/${id}`, fetcher, {
-  //     suspense: true,
-  //   });
+  const fetcher = (url: string) => instance.get(url).then((res) => res.data);
+  const { data, error } = useSWR(
+    `/recipe/user/${sessionStorage.getItem("id")}`,
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
 
-  //   console.log(data);
+  console.log(data);
 
-  //   if (error) {
-  //     console.log(error);
-  //     return cogoToast.error(error);
-  //   }
+  if (error) {
+    console.log(error);
+    cogoToast.error(error);
+
+    return null;
+  }
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,9 +46,9 @@ export const MyRecipes = () => {
           query={query}
         />
         <div className="flex flex-wrap gap-3 flex-col md:flex-row w-ful">
-          {/* {data.map((recipe: RECIPERES, index: number) => (
+          {data.map((recipe: RECIPERES, index: number) => (
             <RecipeCard key={index + recipe._id} {...recipe} user={user} />
-          ))} */}
+          ))}
         </div>
       </div>
     </Suspense>
