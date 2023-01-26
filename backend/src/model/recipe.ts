@@ -1,12 +1,17 @@
 import { Schema, model, SchemaTypes } from "mongoose";
 
+interface IImage {
+  url: string;
+  id: string;
+}
+
 // 1. Create an interface representing a document in MongoDB.
 interface IRecipe {
   title: string;
   description: string;
   note: string;
   ingredients: string;
-  image: string;
+  image: IImage;
   userId?: string;
 }
 
@@ -18,7 +23,10 @@ const recipeSchema = new Schema<IRecipe>(
     description: { type: String, required: true },
     note: String,
     ingredients: { type: String, required: true },
-    image: { type: String, required: true },
+    image: {
+      url: { type: String, required: true },
+      id: { type: String, required: true },
+    },
   },
   {
     toJSON: { virtuals: true },

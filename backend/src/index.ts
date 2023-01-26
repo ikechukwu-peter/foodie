@@ -4,14 +4,23 @@ import express, { Application, Request, Response } from "express";
 import { connect } from "mongoose";
 import passport from "passport";
 import cors from "cors";
+import fileUpload from "express-fileupload";
 
 import { authRouter, recipeRouter } from "./routes";
 import { authenticate } from "./config";
 
 const app: Application = express();
-app.use(cors());
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
+
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+    abortOnLimit: true,
+  })
+);
 
 app.use(passport.initialize());
 

@@ -13,7 +13,7 @@ export const authenticate = (passport: PassportStatic) => {
       try {
         const user = await User.findById(jwt_payload.id);
         if (user) {
-          return done(null, user);
+          return done(null, user?._id);
         }
         return done(null, false);
       } catch (err) {

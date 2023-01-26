@@ -20,14 +20,10 @@ router.post(
   createRecipe
 );
 router.get(
-  "/mine/:userId",
+  "/user/:userId",
   passport.authenticate("jwt", { session: false }),
   getUserRecipes
 );
-router.get(
-  "/one/:id",
-  passport.authenticate("jwt", { session: false }),
-  getRecipe
-);
+router.get("/:id", passport.authenticate("jwt", { session: false }), getRecipe);
 
 export { router };
