@@ -101,7 +101,7 @@ export const createRecipe = async (req: Request, res: Response) => {
         id: imageId,
       },
     });
-    return res.status(200).json(recipe);
+    return res.status(200).json({ message: "created successfully", ...recipe });
   } catch (error) {
     console.log(error);
     return res
