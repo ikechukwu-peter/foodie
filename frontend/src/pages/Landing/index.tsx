@@ -3,6 +3,7 @@ import { Input, Form, Button } from "../../components";
 import recipeOne from "../../assets/recipe-one.jpg";
 import { useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils";
+import axios from "axios";
 
 enum TYPE {
   LOGIN = "Login",
@@ -32,8 +33,17 @@ export const Landing = () => {
       alert("Invalid email");
       return;
     }
+    if (!state?.password) {
+      alert("Please provide password");
+      return;
+    }
     if (action === "Login") {
       console.log("LOGIN", state);
+      axios
+        .get("http://localhost:4000/recipe")
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err?.response.data.message));
+
       // navigate("/dashboard");
       return;
     } else {

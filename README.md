@@ -1,4 +1,4 @@
-## Foodie Doodie
+## Foodie
 
 > A food recipe web application for creating and getting recipes
 
@@ -22,7 +22,7 @@ Install Node and npm using the `npm install` command on your command line, then 
 
 ### Setup
 
-Clone this repository by typing `git clone https://github.com/ikechukwu-peter/foodie_doodie.git` on your terminal.
+Clone this repository by typing `git clone https://github.com/ikechukwu-peter/foodie.git` on your terminal.
 
 ## Installation
 
@@ -54,7 +54,7 @@ $ yarn preview
 
 ### Usage
 
-While inside the foodie_recipe/frontend, run `yarn dev`. This will open a development server.
+While inside the foodie/frontend, run `yarn dev`. This will open a development server.
 
 ### Running the backend
 
@@ -74,7 +74,7 @@ $ yarn format
 
 ### Usage
 
-While inside the foodie_recipe/backend, run `yarn dev`. This will open a development server.
+While inside the foodie/backend, run `yarn dev`. This will open a development server.
 
 ## **Sponsor** ❤
 

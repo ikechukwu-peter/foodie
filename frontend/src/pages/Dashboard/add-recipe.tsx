@@ -73,7 +73,7 @@ export const AddRecipe = () => {
     const { name, value } = e.currentTarget;
 
     console.log(name, value);
-    setState({ ...state, [name]: value });
+    // setState({ ...state, [name]: value });
   };
 
   return (
