@@ -11,9 +11,6 @@ const signToken = (id: string) => {
 };
 
 export const registerOrLogin = async (req: Request, res: Response) => {
-  if (!req?.body?.email || !req.body?.password) {
-    return res.status(400).json({ message: "Please provide missing fields" });
-  }
   const { email, password } = req.body;
   try {
     const _user = await User.findOne({ email }).exec();

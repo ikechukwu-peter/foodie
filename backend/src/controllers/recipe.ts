@@ -1,6 +1,4 @@
-import { UploadApiErrorResponse, UploadApiResponse } from "cloudinary";
 import { UploadedFile } from "express-fileupload";
-import path from "path";
 import { Request, Response } from "express";
 import { Recipe } from "../model";
 import { validateImageType } from "../utils";
@@ -20,11 +18,8 @@ export const getAllRecipes = async (req: Request, res: Response) => {
 
 export const getRecipe = async (req: Request, res: Response) => {
   const { id } = req.params;
-  if (!id || id.length < 24) {
-    res.status(400).json({ message: "Invalid or Missing recipe id" });
-  }
   try {
-    const recipe = await Recipe.findById(req.params.id).exec();
+    const recipe = await Recipe.findById(id).exec();
     res.status(200).json({ data: recipe });
   } catch (error) {
     console.log(error);
@@ -36,10 +31,6 @@ export const getRecipe = async (req: Request, res: Response) => {
 
 export const getUserRecipes = async (req: Request, res: Response) => {
   const { userId } = req.params;
-
-  if (!userId || userId.length < 24) {
-    res.status(400).json({ message: "Invalid or Missing  id" });
-  }
   try {
     const recipe = await Recipe.find({ userId: userId }).exec();
     res.status(200).json({ data: recipe });
@@ -65,6 +56,7 @@ export const createRecipe = async (req: Request, res: Response) => {
   if (!validateImageType(image)) {
     return res.status(422).json({ message: "Image type not supported." });
   }
+
   // const fileName = Date.now() + image.name;
   // const pathToFIle = path.resolve(
   //   __dirname + "../../../assets/" + Date.now() + image.name
@@ -76,19 +68,18 @@ export const createRecipe = async (req: Request, res: Response) => {
   //   }
   // });
 
-  if (!req.body || Object.keys(req.body).length < 4) {
-    return res
-      .status(400)
-      .json({ message: "Please fill in the missing fields" });
-  }
-
   //calling cloudinary
-  // const { secure_url, public_id }: UploadApiResponse = await upload(
-  //   image,
-  //   "Images"
-  // ).catch((err: UploadApiErrorResponse) => {
-  //   return res.status(400).json({ message: err?.message });
-  // });
+  let imageUrl: string;
+  let imageId: string;
+
+  try {
+    const res = await upload(image.data, "Images");
+    imageUrl = res.secure_url;
+    imageId = res.public_id;
+  } catch (error: any) {
+    console.log(error, "CLOUDINARY ERROR");
+    return res.status(400).json({ message: error?.message });
+  }
 
   const { title, note, description, ingredients } = req.body;
 
@@ -98,11 +89,11 @@ export const createRecipe = async (req: Request, res: Response) => {
       title,
       note,
       description,
-      // ingredients,
-      // image: {
-      //   url: secure_url,
-      //   id: public_id,
-      // },
+      ingredients,
+      image: {
+        url: imageUrl,
+        id: imageId,
+      },
     });
     return res.status(200).json({ data: recipe });
   } catch (error) {

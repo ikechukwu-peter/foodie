@@ -19,12 +19,11 @@ export const validate =
       | typeof joinSchema
   ) =>
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
     try {
       await schema.validate({
-        ...(schema?.body && { body: req.body }),
-        ...(schema?.query && { query: req.query }),
-        ...(schema?.params && { params: req.params }),
+        ...(req?.body && { body: req.body }),
+        ...(req?.query && { query: req.query }),
+        ...(req?.params && { params: req.params }),
       });
       return next();
     } catch (err: any) {

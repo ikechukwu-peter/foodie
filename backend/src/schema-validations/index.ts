@@ -2,30 +2,30 @@ import * as yup from "yup";
 
 const createRecipeSchema: yup.AnyObjectSchema = yup.object({
   body: yup.object({
-    title: yup.string().required(),
-    note: yup.string().required(),
-    ingredients: yup.string().required(),
-    description: yup.string().required(),
+    title: yup.string().required("title is required"),
+    note: yup.string().required("note is required"),
+    ingredients: yup.string().required("ingredients is required"),
+    description: yup.string().required("description is required"),
   }),
 });
 
-const getRecipeSchema: yup.AnyObjectSchema = yup.object({
+const getRecipeSchema = yup.object({
   params: yup.object({
-    id: yup.string().required(),
+    id: yup.string().min(24).required("invalid request"),
   }),
 });
 
-const getUserRecipesSchema: yup.AnyObjectSchema = yup.object({
+const getUserRecipesSchema = yup.object({
   params: yup.object({
-    userId: yup.string().required(),
+    userId: yup.string().min(24).required("invalid request"),
   }),
 });
 
 //register or login
-const joinSchema: yup.AnyObjectSchema = yup.object({
+const joinSchema = yup.object({
   body: yup.object({
     email: yup.string().email().required("Email is required"),
-    password: yup.string().required("Password is required"),
+    password: yup.string().min(7).required("Password is required"),
   }),
 });
 
