@@ -11,7 +11,6 @@ export const AuthenticationContextProvider = ({
 }) => {
   const { loading, login } = useAuth();
   const [user, setUser] = useState<string>("");
-  const [id, setId] = useState<string>("");
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -20,7 +19,6 @@ export const AuthenticationContextProvider = ({
 
     if (storedUser !== undefined && storedUser !== null && id && token) {
       setUser(storedUser);
-      setId(id as string);
     }
   }, []);
 
@@ -32,7 +30,6 @@ export const AuthenticationContextProvider = ({
       sessionStorage.setItem("id", response?.id);
 
       setUser(response?.email);
-      setId(response.id);
       return (window.location.href = "/dashboard");
     }
   };
@@ -48,7 +45,6 @@ export const AuthenticationContextProvider = ({
     <AuthenticationContext.Provider
       value={{
         user,
-        id,
         loading,
         onLogin,
         onLogout,

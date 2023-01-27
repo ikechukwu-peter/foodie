@@ -17,7 +17,6 @@ export interface IPAYLOAD {
 }
 export interface AUTH_TYPE {
   user: string;
-  id: string;
   loading: boolean;
   onLogin: (payload: IPAYLOAD) => void;
   onLogout: () => void;
