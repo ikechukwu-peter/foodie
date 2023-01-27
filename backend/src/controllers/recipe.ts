@@ -20,6 +20,7 @@ export const searchRecipe = async (req: Request, res: Response) => {
             path: {
               wildcard: "*",
             },
+            fuzzy: {},
           },
         },
       },
