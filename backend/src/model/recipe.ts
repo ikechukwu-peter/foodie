@@ -12,23 +12,25 @@ interface IRecipe {
   note: string;
   ingredients: string;
   image: IImage;
-  userId?: string;
+  user?: string;
 }
 
 // 2. Create a Schema corresponding to the document interface.
 const recipeSchema = new Schema<IRecipe>(
   {
-    userId: { type: SchemaTypes.ObjectId, ref: "User" },
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    note: String,
-    ingredients: { type: String, required: true },
+    user: { type: SchemaTypes.ObjectId, ref: "User" },
+    title: { type: String, required: true, index: true },
+    description: { type: String, required: true, index: true },
+    note: { type: String, index: true },
+    ingredients: { type: String, required: true, index: true },
     image: {
       url: { type: String, required: true },
       id: { type: String, required: true },
     },
   },
   {
+    timestamps: true,
+    autoIndex: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }

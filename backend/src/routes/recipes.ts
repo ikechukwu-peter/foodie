@@ -5,15 +5,24 @@ import {
   getRecipe,
   getUserRecipes,
   createRecipe,
-} from "./../controllers/recipe";
+  searchRecipe,
+} from "./../controllers";
 import { validate } from "../middleware";
 import {
   createRecipeSchema,
   getRecipeSchema,
   getUserRecipesSchema,
+  searchRecipeSchema,
 } from "../schema-validations";
 
 const router = express.Router();
+
+router.get(
+  "/find",
+  passport.authenticate("jwt", { session: false }),
+  validate(searchRecipeSchema),
+  searchRecipe
+);
 
 router.get(
   "/",

@@ -1,9 +1,10 @@
 import cogoToast from "cogo-toast";
 import React, { DragEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Form, ImageUploader, Input, TextArea } from "../../components";
+import { Button, Form, Input, TextArea } from "../../components";
 import { useRecipe } from "../../hooks";
 import { validateImageType } from "../../utils";
+import { ImageUploader } from "./common/image-uploader";
 
 export const AddRecipe = () => {
   const navigate = useNavigate();

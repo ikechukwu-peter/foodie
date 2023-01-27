@@ -3,7 +3,7 @@ import * as yup from "yup";
 const createRecipeSchema: yup.AnyObjectSchema = yup.object({
   body: yup.object({
     title: yup.string().required("title is required"),
-    note: yup.string().required("note is required"),
+    note: yup.string(),
     ingredients: yup.string().required("ingredients is required"),
     description: yup.string().required("description is required"),
   }),
@@ -12,6 +12,12 @@ const createRecipeSchema: yup.AnyObjectSchema = yup.object({
 const getRecipeSchema = yup.object({
   params: yup.object({
     id: yup.string().min(24).required("invalid request"),
+  }),
+});
+
+const searchRecipeSchema = yup.object({
+  query: yup.object({
+    q: yup.string().required("invalid request"),
   }),
 });
 
@@ -37,4 +43,5 @@ export {
   getRecipeSchema,
   getUserRecipesSchema,
   joinSchema,
+  searchRecipeSchema,
 };

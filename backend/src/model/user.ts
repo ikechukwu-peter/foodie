@@ -10,10 +10,18 @@ export interface IUser {
 // 2. Create a Schema corresponding to the document interface.
 const userSchema = new Schema<IUser>(
   {
-    email: { type: String, required: true, unique: true, lowercase: true },
-    password: { type: String, required: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      index: true,
+    },
+    password: { type: String, required: true, select: false },
   },
   {
+    timestamps: true,
+    autoIndex: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }

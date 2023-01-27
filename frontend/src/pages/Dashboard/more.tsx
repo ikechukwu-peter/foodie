@@ -14,7 +14,7 @@ export const More = () => {
 
   if (error) {
     console.log(error);
-    cogoToast.error(error);
+    cogoToast.error(error?.response?.data?.error);
     return null;
   }
 

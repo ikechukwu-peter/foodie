@@ -7,17 +7,20 @@ export const SearchBox = ({
   onSearch,
   setQuery,
   query,
+  disabled,
 }: {
   title: string;
   onSearch: (e: FormEvent<HTMLFormElement>) => void;
   setQuery: (e: React.SetStateAction<string>) => void;
   query: string;
+  disabled?: boolean;
 }) => {
   return (
     <>
       <h2 className="font-extrabold text-xl ">{title}</h2>
       <Form onSubmit={onSearch}>
         <Input
+          disabled={disabled}
           placeholder="Search for a recipe"
           type="text"
           value={query}

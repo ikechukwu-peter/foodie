@@ -6,11 +6,13 @@ import { RecipeCard, SearchBox } from "../../components";
 import { instance } from "../../config";
 import { AUTH_TYPE, RECIPERES } from "../../@types";
 import { AuthenticationContext } from "../../context";
+import { NoRecipe } from "./common";
+import { useRecipe } from "../../hooks";
+import { SearchLoader, UILoader } from "../../components/loaders";
 
 export const MyRecipes = () => {
-  const { user, id } = useContext(AuthenticationContext) as AUTH_TYPE;
-
-  console.log(id, "USR ID");
+  const { loading, searchRecipe } = useRecipe();
+  const { user } = useContext(AuthenticationContext) as AUTH_TYPE;
 
   //useswr fetcher
   const fetcher = (url: string) => instance.get(url).then((res) => res.data);
@@ -22,34 +24,56 @@ export const MyRecipes = () => {
     }
   );
 
-  console.log(data);
-
   if (error) {
     console.log(error);
-    cogoToast.error(error);
-
+    cogoToast.error(error?.response?.data?.error);
     return null;
   }
 
-  const handleSearch = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  const [state, setState] = useState<RECIPERES[]>(data || {});
   const [query, setQuery] = useState<string>("");
 
+  const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!query) return;
+    const result: RECIPERES[] = await searchRecipe(query);
+    console.log(result, "RESULT");
+    if (result) {
+      setState(result);
+    }
+  };
+
   return (
-    <Suspense fallback={<div>LOADING</div>}>
+    <Suspense fallback={<UILoader />}>
       <div className="text-white w-full h-full">
         <SearchBox
           title="My Recipes"
           onSearch={handleSearch}
           setQuery={setQuery}
           query={query}
+          disabled={!state?.length}
         />
-        <div className="flex flex-wrap gap-3 flex-col md:flex-row w-ful">
-          {data.map((recipe: RECIPERES, index: number) => (
-            <RecipeCard key={index + recipe._id} {...recipe} user={user} />
-          ))}
-        </div>
+        {loading ? (
+          <SearchLoader />
+        ) : (
+          <>
+            {!!state?.length ? (
+              <div className="flex flex-wrap gap-3 flex-col md:flex-row w-ful">
+                {state.map((recipe: RECIPERES, index: number) => (
+                  <RecipeCard
+                    key={index + recipe._id}
+                    {...recipe}
+                    user={user}
+                  />
+                ))}
+              </div>
+            ) : (
+              <>
+                <NoRecipe />
+              </>
+            )}
+          </>
+        )}
       </div>
     </Suspense>
   );

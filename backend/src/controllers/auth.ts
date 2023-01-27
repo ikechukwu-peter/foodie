@@ -13,7 +13,7 @@ const signToken = (id: string) => {
 export const registerOrLogin = async (req: Request, res: Response) => {
   const { email, password }: { email: string; password: string } = req.body;
   try {
-    const _user = await User.findOne({ email }).exec();
+    const _user = await User.findOne({ email }).select("+password").exec();
 
     if (_user) {
       if (!(await bcrypt.compare(password, _user?.password as string))) {

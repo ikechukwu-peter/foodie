@@ -1,5 +1,5 @@
 import React, { DragEvent, FormEvent } from "react";
-import { Input } from ".";
+import { Input } from "../../../components";
 
 export const ImageUploader = ({
   handleDragOver,

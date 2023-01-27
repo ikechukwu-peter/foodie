@@ -203,6 +203,7 @@
   position: relative;
   text-shadow: 0 0 0.1em var(--fg-t);
   transform: rotateZ(-45deg);
+  color: #fff;
 }
 
 /* Animations */
