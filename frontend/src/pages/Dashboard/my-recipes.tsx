@@ -51,7 +51,7 @@ export const MyRecipes = () => {
           onSearch={handleSearch}
           setQuery={setQuery}
           query={query}
-          disabled={!state?.length}
+          disabled={!data?.length}
         />
         {loading ? (
           <SearchLoader />
