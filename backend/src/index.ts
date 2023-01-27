@@ -8,6 +8,7 @@ import fileUpload from "express-fileupload";
 import helmet from "helmet";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
+//@ts-ignore
 import xssClean from "xss-clean";
 
 import { authRouter, recipeRouter } from "./routes";
