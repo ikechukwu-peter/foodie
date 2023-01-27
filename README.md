@@ -11,6 +11,12 @@
 - ExpressJs
 - TypeScript
 - NodeJs
+- Cloudinary
+- MongoDB
+
+## Live Demo ☁️
+
+[Live Demo Link](https://foodie-beta-eight.vercel.app/
 
 ## Getting Started ☀️
 
@@ -98,7 +104,7 @@ Give a ⭐️ if you like this project!
 
 ## Acknowledgments
 
-- Hat tip to [Cloudinary](cloudinary.com) for their awesome API to store images
+- Hat tip to [Cloudinary](cloudinary.com) for their awesome API to store images and [MongoDB Atlas](mongodb.com) for their awesome DB.
 
 ## 📝 License
 
