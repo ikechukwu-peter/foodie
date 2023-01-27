@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { UILoader } from "./components/loaders";
 import { DashboardLayout } from "./layouts/dashboard";
-import { AddRecipe, More, MyRecipes } from "./pages/Dashboard";
+import { AddRecipe, Home, More, MyRecipes } from "./pages/Dashboard";
 import { ErrorPage } from "./pages/Error";
 import { Landing } from "./pages/Landing";
 
@@ -19,6 +19,10 @@ function App() {
       element: <DashboardLayout />,
       errorElement: <ErrorPage />,
       children: [
+        {
+          path: "/dashboard/",
+          element: <Home />,
+        },
         {
           path: "/dashboard/addrecipe",
           element: <AddRecipe />,
