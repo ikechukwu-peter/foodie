@@ -26,7 +26,6 @@ export const Home = () => {
     e.preventDefault();
     if (!query) return;
     const result: RECIPERES[] = await searchRecipe(query);
-    console.log(result, "RESULT");
     if (result) {
       setState(result);
     }
@@ -40,7 +39,7 @@ export const Home = () => {
           onSearch={handleSearch}
           setQuery={setQuery}
           query={query}
-          disabled={!state?.length}
+          disabled={!data?.length}
         />
         {loading ? (
           <SearchLoader />

@@ -1,6 +1,7 @@
 import React, { FormEvent, useState, useContext, useLayoutEffect } from "react";
 import { Input, Form, Button } from "../../components";
 import recipeOne from "../../assets/recipe-one.jpg";
+import logo from "../../../public/logo.png";
 import { validateEmail } from "../../utils";
 import { AuthenticationContext } from "../../context";
 import { AUTH_TYPE } from "../../@types";
@@ -49,6 +50,10 @@ export const Landing = () => {
         onSubmit={handleSubmit}
       >
         <div className="flex flex-col gap-2  w-full md:w-[50%]">
+          <h2 className="text-orange-500 font-extrabold text-xl underline underline-offset-4 ">
+            Foodie
+          </h2>
+
           <Input
             name="email"
             placeholder="Email"
