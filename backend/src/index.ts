@@ -59,6 +59,12 @@ runDB();
 
 app.use("/recipe", recipeRouter);
 app.use("/auth", authRouter);
+
+//OPTIONAL (THIS IS JUST FOR HEALTH CHECK MAJORLY)
+//added for pinging and health check on render.com
+app.get("/ping", (req: Request, res: Response) => {
+  res.send("pong");
+});
 app.all("*", async (req: Request, res: Response) => {
   console.log(req.protocol);
   res.status(404).json({
