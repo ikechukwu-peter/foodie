@@ -79,7 +79,9 @@ export const Card = ({
         alt={"A picture of " + title}
         className={`w-full ${
           isFull ? "md:w-full" : "md:w-[14rem] "
-        } h-[10rem] ${isFull ? "md:h-[20rem]" : "md:h-[14rem]"} object-cover`}
+        } h-full md:[10rem] ${
+          isFull ? "md:h-[20rem]" : "md:h-[14rem]"
+        } object-cover`}
       />
       <div
         className={`p-2 bg-zinc-900 w-full ${
