@@ -14,7 +14,7 @@ cloudinary.config({
 });
 
 export const upload = async (
-  file: any,
+  file: Buffer,
   folder: string
 ): Promise<UploadApiResponse | UploadApiErrorResponse> => {
   //resize image using sharp

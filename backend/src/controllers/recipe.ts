@@ -7,9 +7,7 @@ import { SEARCH_RECIPES, SEARCH_RECIPES_RESPONSE } from "./../@types/index.d";
 
 export const searchRecipe = async (req: Request, res: Response) => {
   const { q } = req.query;
-  if (!req?.user) {
-    return res.status(422).json({ error: "Unable to process your request." });
-  }
+
   try {
     const pipeline = [
       {
@@ -89,9 +87,7 @@ export const getAllRecipes = async (req: Request, res: Response) => {
 
 export const getRecipe = async (req: Request, res: Response) => {
   const { id } = req.params;
-  if (!req?.user) {
-    return res.status(422).json({ error: "Unable to process your request." });
-  }
+
   try {
     const recipe = await Recipe.findById(id).populate("user", "email").exec();
     res.status(200).json(recipe);

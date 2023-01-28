@@ -10,13 +10,12 @@ import {
 //middleware to validate req data
 export const validate =
   (
-    schema:
-      | InferType<
-          | typeof createRecipeSchema
-          | typeof getRecipeSchema
-          | typeof getUserRecipesSchema
-        >
+    schema: InferType<
+      | typeof createRecipeSchema
+      | typeof getRecipeSchema
+      | typeof getUserRecipesSchema
       | typeof joinSchema
+    >
   ) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
