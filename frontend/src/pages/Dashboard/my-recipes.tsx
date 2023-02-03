@@ -4,7 +4,7 @@ import cogoToast from "cogo-toast";
 
 import { RecipeCard, SearchBox } from "../../components";
 import { instance } from "../../config";
-import { AUTH_TYPE, RECIPERES } from "../../@types";
+import { AUTH_TYPE, IRECIPERESPONSE } from "../../@types";
 import { AuthenticationContext } from "../../context";
 import { NoRecipe } from "./common";
 import { useRecipe } from "../../hooks";
@@ -30,13 +30,13 @@ export const MyRecipes = () => {
     return null;
   }
 
-  const [state, setState] = useState<RECIPERES[]>(data || {});
+  const [state, setState] = useState<IRECIPERESPONSE[]>(data || {});
   const [query, setQuery] = useState<string>("");
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!query) return;
-    const result: RECIPERES[] = await searchRecipe(query);
+    const result: IRECIPERESPONSE[] = await searchRecipe(query);
     console.log(result, "RESULT");
     if (result) {
       setState(result);
@@ -59,7 +59,7 @@ export const MyRecipes = () => {
           <>
             {!!state?.length ? (
               <div className="flex flex-wrap gap-3 flex-col md:flex-row w-ful">
-                {state.map((recipe: RECIPERES, index: number) => (
+                {state.map((recipe: IRECIPERESPONSE, index: number) => (
                   <RecipeCard
                     key={index + recipe._id}
                     {...recipe}

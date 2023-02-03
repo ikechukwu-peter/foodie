@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import { RECIPEUSER } from "../@types";
+import { IRECIPEUSER } from "../@types";
 import { Button } from "./Button";
 
 export const RecipeCard = ({
@@ -11,7 +11,7 @@ export const RecipeCard = ({
   image,
   description,
   user,
-}: RECIPEUSER) => {
+}: IRECIPEUSER) => {
   const navigate = useNavigate();
   const handleViewMore = (id: string) => {
     navigate("/dashboard/recipe/" + id);
