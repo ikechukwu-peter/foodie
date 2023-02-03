@@ -3,11 +3,11 @@ import useSWR from "swr";
 import cogoToast from "cogo-toast";
 
 import { RecipeCard, SearchBox } from "../../components";
-import { instance } from "../../config";
-import { RECIPERES } from "../../@types";
 import { NoRecipe } from "./common";
 import { useRecipe } from "../../hooks";
 import { SearchLoader, UILoader } from "../../components/loaders";
+import { IRECIPERESPONSE } from "../../@types";
+import { instance } from "../../config";
 
 export const Home = () => {
   const { loading, searchRecipe } = useRecipe();
@@ -21,11 +21,13 @@ export const Home = () => {
     return null;
   }
   const [query, setQuery] = useState<string>("");
-  const [state, setState] = useState<RECIPERES[]>(data || {});
+  const [state, setState] = useState<IRECIPERESPONSE[]>(
+    (data as unknown as IRECIPERESPONSE[]) || {}
+  );
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!query) return;
-    const result: RECIPERES[] = await searchRecipe(query);
+    const result: IRECIPERESPONSE[] = await searchRecipe(query);
     if (result) {
       setState(result);
     }
@@ -39,7 +41,7 @@ export const Home = () => {
           onSearch={handleSearch}
           setQuery={setQuery}
           query={query}
-          disabled={!data?.length}
+          disabled={!data?.data}
         />
         {loading ? (
           <SearchLoader />
@@ -47,7 +49,7 @@ export const Home = () => {
           <>
             {!!state?.length ? (
               <div className="flex flex-wrap gap-3 flex-col items-center justify-center md:justify-start md:items-start md:flex-row w-full">
-                {state.map((recipe: RECIPERES, index: number) => (
+                {state.map((recipe: IRECIPERESPONSE, index: number) => (
                   <RecipeCard
                     key={index + recipe._id}
                     {...recipe}

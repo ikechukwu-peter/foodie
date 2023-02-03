@@ -1,11 +1,31 @@
-export interface IRECIPE_PAYLOAD {
+export interface IRECIPE {
   title: string;
   description: string;
   note?: string;
   ingredients: string;
+}
+
+export interface IRECIPEPAYLOAD extends IRECIPE {
   image: File;
 }
-export interface ILoginRes {
+
+export interface IRECIPERESPONSE extends IRECIPE {
+  _id: string;
+  image: IIMAGE;
+  user: {
+    email: string;
+  };
+}
+
+export interface IRECIPEUSER extends Omit<IRECIPERESPONSE, "user"> {
+  user: string;
+}
+
+export interface SEARCHRESPONSE {
+  data: IRECIPERESPONSE;
+}
+
+export interface ILOGINRESPONSE {
   email: string;
   token: string;
   id: string;
@@ -25,26 +45,4 @@ export interface AUTH_TYPE {
 export interface IIMAGE {
   url: string;
   id: string;
-}
-
-export interface RECIPERES {
-  _id: string;
-  title: string;
-  ingredients: string;
-  note?: string;
-  image: IIMAGE;
-  description: string;
-  user: {
-    email: string;
-  };
-}
-
-export interface RECIPEUSER {
-  _id: string;
-  title: string;
-  ingredients: string;
-  note?: string;
-  image: IIMAGE;
-  description: string;
-  user: string;
 }

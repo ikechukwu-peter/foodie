@@ -1,11 +1,10 @@
 import cogoToast from "cogo-toast";
 import React, { Suspense } from "react";
 import { useParams } from "react-router-dom";
-import useSWR from "swr";
 import { Card } from "../../components";
 import { UILoader } from "../../components/loaders";
 import { instance } from "../../config";
-
+import useSWR from "swr";
 export const More = () => {
   const params = useParams().id;
   const fetcher = (url: string) => instance.get(url).then((res) => res.data);

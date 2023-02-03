@@ -1,10 +1,14 @@
+import { AxiosResponse } from "axios";
 import { useState } from "react";
-import { IRECIPE_PAYLOAD } from "../@types";
 import { instance } from "../config";
+import { IRECIPEPAYLOAD, IRECIPERESPONSE } from "./../@types/index";
+
 export const useRecipe = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const searchRecipe = async (q: string) => {
+  const searchRecipe = async (
+    q: string
+  ): Promise<AxiosResponse<IRECIPERESPONSE[] | []> | any> => {
     try {
       setLoading(true);
       const response = await instance.get(`/recipe/find?q=${q}`);
@@ -18,7 +22,7 @@ export const useRecipe = () => {
     }
   };
 
-  const addRecipe = async (payload: IRECIPE_PAYLOAD) => {
+  const addRecipe = async (payload: IRECIPEPAYLOAD): Promise<void> => {
     const { note, ...rest } = payload;
     const formData = new FormData();
 
@@ -33,10 +37,7 @@ export const useRecipe = () => {
 
     try {
       setLoading(true);
-      const response = await instance.post("/recipe/create", formData);
-      if (response) {
-        return response?.data;
-      }
+      await instance.post("/recipe/create", formData);
     } catch (error) {
       console.log(error);
     } finally {
