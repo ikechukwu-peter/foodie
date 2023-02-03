@@ -14,9 +14,6 @@ module.exports = {
     fontFamily: {
       sans: ["Fraunces", "serif"],
     },
-    // backgroundImage: {
-    //   "recipe-hero": "url('./src/assets/recipe-one.jpg')",
-    // },
   },
   plugins: [],
 };
