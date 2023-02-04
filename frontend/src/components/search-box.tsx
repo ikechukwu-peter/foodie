@@ -1,6 +1,6 @@
 import React, { FormEvent } from "react";
-import { Form } from "./Form";
-import { Input } from "./Input";
+import { Form } from "./form";
+import { Input } from "./input";
 
 export const SearchBox = ({
   title,

@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { IRECIPEUSER } from "../@types";
-import { Button } from "./Button";
+import { Button } from "./button";
 
 export const RecipeCard = ({
   _id,

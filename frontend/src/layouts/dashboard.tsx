@@ -2,7 +2,7 @@ import React, { useState, useContext, useLayoutEffect } from "react";
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { MdOutlineClose } from "react-icons/md";
-import { Button } from "../components/Button";
+import { Button } from "../components/button";
 import { AuthenticationContext } from "../context";
 import { AUTH_TYPE } from "../@types";
 

@@ -1,8 +1,8 @@
-import { Button } from "./Button";
-import { Card, RecipeCard } from "./Card";
-import { Input } from "./Input";
-import { Form } from "./Form";
-import { TextArea } from "./TextArea";
-import { SearchBox } from "./SearchBox";
+import { Button } from "./button";
+import { Card, RecipeCard } from "./card";
+import { Input } from "./input";
+import { Form } from "./form";
+import { TextArea } from "./textarea";
+import { SearchBox } from "./search-box";
 
 export { Button, Card, Input, Form, TextArea, SearchBox, RecipeCard };

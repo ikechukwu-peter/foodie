@@ -24,7 +24,7 @@ export const Home = () => {
   const [state, setState] = useState<IRECIPERESPONSE[]>(
     (data as unknown as IRECIPERESPONSE[]) || {}
   );
-  const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!query) return;
     const result: IRECIPERESPONSE[] = await searchRecipe(query);
@@ -32,17 +32,23 @@ export const Home = () => {
       setState(result);
     }
   };
-
+  const props = {
+    title: "Recipes",
+    onSearch: onSubmit,
+    query,
+    setQuery,
+  };
   return (
     <Suspense fallback={<UILoader />}>
       <div className="text-white w-full h-full">
-        <SearchBox
+        <SearchBox {...props} />
+        {/* <SearchBox
           title="Recipe"
           onSearch={handleSearch}
           setQuery={setQuery}
           query={query}
           disabled={!data?.data}
-        />
+        /> */}
         {loading ? (
           <SearchLoader />
         ) : (
