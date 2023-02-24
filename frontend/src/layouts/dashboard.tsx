@@ -94,8 +94,7 @@ export const DashboardLayout = () => {
                 alt=""
               />
               <div>
-                <h2 className="text-white font-semibold ">John</h2>
-                <p className="text-orange-700 font-light">john@gmail.com</p>
+                <p className="text-orange-500 font-light">{user}</p>
               </div>
             </div>
             <div className="flex flex-col gap-y-1  mt-3">
